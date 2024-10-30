@@ -35,18 +35,24 @@ public class Main {
 	public final static double dec2 = 27.2993;
 	public final static double dec3 = 29.8982;
 	
-	// test
-	public final static int r2 = 900; //km
-	
 	public static void main(String[] args) {
 		
-		double[] c = findC();
+		System.out.println("===================================");
 		
-		System.out.println(c[0]);
-		System.out.println(c[1]);
+		// test
+		double r2 = 900; //km
+		
+		//double[][] pHat = findPHat();
+		double[] c = findC(r2);
+		
+		double[][] mat = {{2, 2, 3}, {4, 5, 6}, {7, 8, 9}};
+		double[][] inv = inverse(mat);
+		
+		//System.out.println(c[0]);
+		//System.out.println(c[1]);
 	}
 	
-	static double[] findC() {
+	static double[] findC(double r2) {
 		
 		double c1 = (tau3/tau) * (1 + (m/Math.pow(r2, 3)) * (Math.pow(tau, 2) - Math.pow(tau3, 2)));
 		double c3 = (-tau1/tau) * (1 + (m/Math.pow(r2, 3)) * (Math.pow(tau, 2) - Math.pow(tau1, 2)));
@@ -54,6 +60,70 @@ public class Main {
 		double[] out = {c1,c3};
 		return out;
 	}
+	
+	static double[][] findPHat() {
+		
+		double[] ra = {Math.toRadians(ra1), Math.toRadians(ra2), Math.toRadians(ra3)};
+		double[] dec = {Math.toRadians(dec1), Math.toRadians(dec2), Math.toRadians(dec3)};
+		
+		double[][] p = {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}};
+		
+		for(int i = 0; i < 3; i++) {
+			
+			p[i][0] = Math.cos(dec[i]) * Math.cos(ra[i]);
+			p[i][1] = Math.cos(dec[i]) * Math.sin(ra[i]);
+			p[i][2] = Math.sin(dec[i]);
+			
+			/*
+			System.out.println(out[0][i]);
+			System.out.println(out[1][i]);
+			System.out.println(out[2][i]);
+			*/
+				
+		}
+		
+		double[][] out = inverse(p);
+		
+		return out;
+	}
+	
+	static double[][] inverse(double[][] mat) {
+		
+		double[][] inv = {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
+		
+		double[][] old = mat;
+		
+		for(int i=0; i<3; i++) {
+			mat[0][i] = mat[0][i] / old[0][0];
+			inv[0][i] = inv[0][i] / old[0][0];
+		}
+		
+		
+		
+		
+		
+		
+		System.out.println("W");
+		for(int r=0; r<3; r++) {
+			System.out.println("");
+			for(int c=0; c<3; c++) {
+				System.out.print(mat[r][c] + "      ");
+			}
+		}
+		System.out.println("");
+		
+		System.out.println("Inv");
+		for(int r=0; r<3; r++) {
+			System.out.println("");
+			for(int c=0; c<3; c++) {
+				System.out.println(inv[r][c] + "      ");
+			}
+		}
+		
+		
+		return mat;
+	}
+	
 	
 	
 	
