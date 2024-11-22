@@ -16,7 +16,7 @@ public class Main {
 	public final static int eRad = 6378; // km
 	public final static int alt = 500; // km
 	public final static int tLat = 60; // deg
-	public final static int tAlt = eRad + alt; // km
+	public final static int tRad = eRad + alt; // km
 	
 	// time (s)
 	public final static int t1 = 0;
@@ -46,54 +46,20 @@ public class Main {
 		
 		System.out.println("===================================");
 		
-		// test
-		double r2 = 900; //km
 		//double[][] mat = {{2, 2, 3}, {4, 5, 6}, {7, 8, 9}};
 		
-		double[][] pHat = findPHat();
-		double[] c = findC(r2);
+		double[][] pHat = Gauss.findPHat(ra1, ra2, ra3, dec1, dec2, dec3);
+		double[][] R = Gauss.findR(theta1, theta2, theta3, tLat, tRad);
+		double[] AB = Gauss.findAB(pHat, R, tau, tau1, tau3);
 		
-		MatrixMath.printMat(pHat);
+		double out = Gauss.interate(AB, R, pHat, m);
 		
-	}
-	
-	static double[] findC(double r2) {
-		// Method to calculate c1 and c3 values
+		System.out.println("===================================");
+		System.out.println(out);
 		
-		// Calculate c1 and c3 based off of time difference
-		double c1 = (tau3/tau) * (1 + (m/Math.pow(r2, 3)) * (Math.pow(tau, 2) - Math.pow(tau3, 2)));
-		double c3 = (-tau1/tau) * (1 + (m/Math.pow(r2, 3)) * (Math.pow(tau, 2) - Math.pow(tau1, 2)));
+		//System.out.println(AB[0]);
+		//System.out.println(AB[1]);
 		
-		// Return array
-		double[] out = {c1,c3};
-		
-		return out;
-	}
-	
-	static double[][] findPHat() {
-		// Method to find the p hat matrix
-		
-		// Putting right ascension and declination into arrays after conversion to radians
-		double[] ra = {Math.toRadians(ra1), Math.toRadians(ra2), Math.toRadians(ra3)};
-		double[] dec = {Math.toRadians(dec1), Math.toRadians(dec2), Math.toRadians(dec3)};
-		
-		// Empty 3x3 matrix
-		double[][] p = {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}};
-		
-		// For loop to calculate p matrix
-		for(int i = 0; i < 3; i++) {
-			
-			p[i][0] = Math.cos(dec[i]) * Math.cos(ra[i]);
-			p[i][1] = Math.cos(dec[i]) * Math.sin(ra[i]);
-			p[i][2] = Math.sin(dec[i]);
-			
-		}
-		
-		// Inverting the p matrix
-		//double[][] out = MatrixMath.inverse(p);
-		
-		return p;
-	}
-	
+	}	
 	
 }
