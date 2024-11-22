@@ -46,7 +46,14 @@ public class Main {
 		double[] c = findC(r2);
 		
 		double[][] mat = {{2, 2, 3}, {4, 5, 6}, {7, 8, 9}};
-		double[][] inv = inverse(mat);
+		double[][] inv = MatrixMath.inverse(mat);
+		
+		for (int row = 0; row <= 2; row++) {
+			System.out.println("Row " + (row + 1));
+			for (int col = 0; col <= 2; col++) {
+				System.out.println(inv[row][col]);
+			}
+		}
 		
 		//System.out.println(c[0]);
 		//System.out.println(c[1]);
@@ -82,49 +89,10 @@ public class Main {
 				
 		}
 		
-		double[][] out = inverse(p);
+		double[][] out = MatrixMath.inverse(p);
 		
 		return out;
 	}
-	
-	static double[][] inverse(double[][] mat) {
-		
-		double[][] inv = {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
-		
-		double[][] old = mat;
-		
-		for(int i=0; i<3; i++) {
-			mat[0][i] = mat[0][i] / old[0][0];
-			inv[0][i] = inv[0][i] / old[0][0];
-		}
-		
-		
-		
-		
-		
-		
-		System.out.println("W");
-		for(int r=0; r<3; r++) {
-			System.out.println("");
-			for(int c=0; c<3; c++) {
-				System.out.print(mat[r][c] + "      ");
-			}
-		}
-		System.out.println("");
-		
-		System.out.println("Inv");
-		for(int r=0; r<3; r++) {
-			System.out.println("");
-			for(int c=0; c<3; c++) {
-				System.out.println(inv[r][c] + "      ");
-			}
-		}
-		
-		
-		return mat;
-	}
-	
-	
 	
 	
 }
