@@ -100,7 +100,7 @@ public class Gauss {
 		double[] p2 = {p[1][0], p[1][1], p[1][2]};
 		double[] R2 = {R[1][0], R[1][1], R[1][2]};
 		
-		double a = -(Math.pow(AB[0], 2) + 2*AB[0]*MatrixMath.dot(R2, p2) + Math.pow(MatrixMath.mag(R2), 0));
+		double a = -(Math.pow(AB[0], 2) + 2*AB[0]*MatrixMath.dot(R2, p2) + Math.pow(MatrixMath.mag(R2), 2));
 		double b = -2*m*AB[1]*(AB[0] + MatrixMath.dot(R2, p2));
 		double c = -Math.pow(m, 2)*Math.pow(AB[1], 2);
 		

@@ -14,9 +14,9 @@ public class Main {
 	// assorted constants
 	public static int m = 398600; // km^3/s^2
 	public static int eRad = 6378; // km
-	public static int alt = 500; // km
+	public static double alt = 500; // km
 	public static int tLat = 60; // deg
-	public static int tRad = eRad + alt; // km
+	public static double tRad = eRad + alt; // km
 	
 	// time (s)
 	public static double t1 = 0;
@@ -48,6 +48,8 @@ public class Main {
 		
 		dec("5.11");
 		
+		System.out.println(tau1 + " | " + tau3 + " | " + tau + " | ");
+		
 		//double[][] mat = {{2, 2, 3}, {4, 5, 6}, {7, 8, 9}};
 		
 		double[][] pHat = Gauss.findPHat(ra1, ra2, ra3, dec1, dec2, dec3);
@@ -56,12 +58,12 @@ public class Main {
 		double out = Gauss.interate(AB, R, pHat, m);
 		
 		System.out.println("===================================");
+				
+		//System.out.println("R: ");
+		//MatrixMath.printMat(R);
 		
-		System.out.println("R: ");
-		MatrixMath.printMat(R);
-		
-		System.out.println("pHat: ");
-		MatrixMath.printMat(pHat);
+		//System.out.println("pHat: ");
+		//MatrixMath.printMat(pHat);
 		
 		System.out.println("pHat inv: ");
 		MatrixMath.printMat(MatrixMath.inverse(pHat));
@@ -74,7 +76,7 @@ public class Main {
 		
 		System.out.println("R2: " + out);
 		
-		
+		//MatrixMath.printMat(MatrixMath.matMult(pHat, MatrixMath.inverse(pHat)));
 		
 		
 	}	
@@ -85,7 +87,7 @@ public class Main {
 			// assorted constants
 			m = 398600; // km^3/s^2
 			eRad = 6378; // km
-			alt = 500; // km
+			alt = 0.5; // km
 			tLat = 60; // deg
 			tRad = eRad + alt; // km
 			
@@ -116,7 +118,7 @@ public class Main {
 			// assorted constants
 			m = 398600; // km^3/s^2
 			eRad = 6378; // km
-			alt = 1000; // km
+			alt = 1; // km
 			tLat = 40; // deg
 			tRad = eRad + alt; // km
 			
@@ -125,9 +127,9 @@ public class Main {
 			t2 = 118.1;
 			t3 = 237.58;
 			
-			tau = t3 - t1;
 			tau1 = t1 - t2;
 			tau3 = t3 - t2;
+			tau = tau3 - tau1;
 			
 			// mean anomaly (degrees)
 			theta1 = 44.506;
