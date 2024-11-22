@@ -44,37 +44,29 @@ public class Main {
 	
 	public static void main(String[] args) {
 		
-		System.out.println("===================================");
-		
 		dec("5.11");
 		
-		System.out.println(tau1 + " | " + tau3 + " | " + tau + " | ");
-		
-		//double[][] mat = {{2, 2, 3}, {4, 5, 6}, {7, 8, 9}};
+		System.out.println("===================================");			
 		
 		double[][] pHat = Gauss.findPHat(ra1, ra2, ra3, dec1, dec2, dec3);
 		double[][] R = Gauss.findR(theta1, theta2, theta3, tLat, tRad);
 		double[] AB = Gauss.findAB(pHat, R, tau, tau1, tau3);
-		double out = Gauss.interate(AB, R, pHat, m);
+		double r2 = Gauss.interate(AB, R, pHat, m);
 		
-		System.out.println("===================================");
-				
-		//System.out.println("R: ");
-		//MatrixMath.printMat(R);
+		System.out.println("===================================");		
 		
-		//System.out.println("pHat: ");
-		//MatrixMath.printMat(pHat);
+		dispMat(false, R, pHat, AB);
 		
-		System.out.println("pHat inv: ");
-		MatrixMath.printMat(MatrixMath.inverse(pHat));
+		System.out.println("R2: " + r2);
 		
-		System.out.println("M: ");
-		MatrixMath.printMat(MatrixMath.matMult(MatrixMath.inverse(pHat), R));
+		double[] cValues = Gauss.findC(r2, tau, tau3, tau1, m);
 		
-		System.out.println("A: " + AB[0]);
-		System.out.println("B: " + AB[1]);
+		System.out.println("C Values: " + cValues[0] + " | " + cValues[1]);
 		
-		System.out.println("R2: " + out);
+		// Find slant ranges
+		double[][] r = Gauss.findECIr(pHat, R, cValues);
+		
+		MatrixMath.printMat(r);
 		
 		//MatrixMath.printMat(MatrixMath.matMult(pHat, MatrixMath.inverse(pHat)));
 		
@@ -148,6 +140,35 @@ public class Main {
 		}
 		
 		
+		
+	}
+	
+	public static void dispMat(Boolean ans, double[][] R, double[][] pHat, double[] AB) {
+		
+		if (ans == true) {
+			System.out.println("Tau values: " + tau1 + " | " + tau3 + " | " + tau + " | ");
+			System.out.println("===================================");
+			
+			System.out.println("R: ");
+			MatrixMath.printMat(R);
+			System.out.println("===================================");
+			
+			System.out.println("pHat: ");
+			MatrixMath.printMat(pHat);
+			System.out.println("===================================");
+			
+			System.out.println("pHat inv: ");
+			MatrixMath.printMat(pHat);
+			System.out.println("===================================");
+			
+			System.out.println("M: ");
+			MatrixMath.printMat(MatrixMath.matMult(MatrixMath.inverse(pHat), R));
+			System.out.println("===================================");
+			
+			System.out.println("A: " + AB[0]);
+			System.out.println("B: " + AB[1]);
+			System.out.println("===================================");
+		}
 		
 	}
 }

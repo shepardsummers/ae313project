@@ -10,9 +10,7 @@ public class Gauss {
 	public Gauss() {
 		// TODO Auto-generated constructor stub
 	}
-	
-	/*
-	static double[] findC(double r2) {
+	static double[] findC(double r2, double tau, double tau3, double tau1, double m) {
 		// Method to calculate c1 and c3 values
 		
 		// Calculate c1 and c3 based off of time difference
@@ -24,7 +22,6 @@ public class Gauss {
 		
 		return out;
 	}
-	*/
 	
 	public static double[][] findPHat(double ra1, double ra2, double ra3, double dec1, double dec2, double dec3) {
 		// Method to find the p hat matrix
@@ -39,9 +36,9 @@ public class Gauss {
 		// For loop to calculate p matrix
 		for(int i = 0; i < 3; i++) {
 			
-			p[i][0] = Math.cos(dec[i]) * Math.cos(ra[i]);
-			p[i][1] = Math.cos(dec[i]) * Math.sin(ra[i]);
-			p[i][2] = Math.sin(dec[i]);
+			p[0][i] = Math.cos(dec[i]) * Math.cos(ra[i]);
+			p[1][i] = Math.cos(dec[i]) * Math.sin(ra[i]);
+			p[2][i] = Math.sin(dec[i]);
 			
 		}
 		
@@ -64,13 +61,13 @@ public class Gauss {
 		double eqR = tRad * Math.cos(Math.toRadians(tLat));
 		
 		// R matrix
-		double[][] R = {{0, 0, height}, {0, 0, height}, {0, 0, height}};
+		double[][] R = {{0, 0, 0}, {0, 0, 0}, {height, height, height}};
 		
 		// For loop to calculate i and j components of R vectors for each observation
 		for (int i = 0; i <= 2; i++) {
 			
-			R[i][0] = eqR * Math.cos(theta[i]);
-			R[i][1] = eqR * Math.sin(theta[i]);
+			R[0][i] = eqR * Math.cos(theta[i]);
+			R[1][i] = eqR * Math.sin(theta[i]);
 			
 		}
 		
@@ -109,7 +106,7 @@ public class Gauss {
 		int count = 0;
 		double xn;
 		double d = 1;
-		while (Math.abs(d) >= 0.1) {
+		while (Math.abs(d) >= 0.000001) {
 			count ++;
 			
 			xn = guess;
@@ -124,5 +121,29 @@ public class Gauss {
 		}
 		
 		return guess;
+	}
+	
+	public static double[][] findECIr(double[][] pHat, double[][] R, double[] C) {
+		
+		// Find M matrix
+		double[][] M = MatrixMath.matMult(MatrixMath.inverse(pHat), R);
+		
+		// Vector that will be multiplied
+		double[] vect = {-C[0], 1, -C[1]};
+		
+		double[] M2 = MatrixMath.matMult1x3(M, vect);
+		
+		double[] P = {(M2[0]/C[0]), (M2[1]/-1), (M2[2]/C[1])};
+		
+		double[][] r = {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}};
+		
+		for (int col = 0; col <= 2; col++) {
+			for (int row = 0; row <= 2; row++) {
+				r[row][col] = R[row][col] + P[col]*pHat[row][col];
+			}
+		}
+		
+		
+		return r;
 	}
 }

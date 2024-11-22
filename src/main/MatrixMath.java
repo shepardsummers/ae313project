@@ -57,7 +57,7 @@ public class MatrixMath {
 		// Method for multiplying two 3x3 matrices
 		
 		// Empty 3x3 matrix
-		double[][] fin = {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}};
+		double[][] fin = {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}};		
 		
 		// First column calculations
 		fin[0][0] = (mat1[0][0] * mat2[0][0]) + (mat1[0][1] * mat2[1][0]) + (mat1[0][2] * mat2[2][0]);
@@ -77,12 +77,26 @@ public class MatrixMath {
 		return fin;
 	}
 	
+	public static double[] matMult1x3(double[][] mat1, double[] vect){
+		// Method for multiplying 3x3 and 1x3 matrices
+		
+		// Empty 3x3 matrix
+		double[] fin = {0, 0, 0};
+		
+		// First column calculations
+		fin[0] = (mat1[0][0] * vect[0]) + (mat1[0][1] * vect[1]) + (mat1[0][2] * vect[2]);
+		fin[1] = (mat1[1][0] * vect[0]) + (mat1[1][1] * vect[1]) + (mat1[1][2] * vect[2]);
+		fin[2] = (mat1[2][0] * vect[0]) + (mat1[2][1] * vect[1]) + (mat1[2][2] * vect[2]);
+		
+		return fin;
+	}
+	
 	public static void printMat(double[][] mat) {
 		// Method to print out a 3x3 matrix row by row
 		
-		for (int row = 0; row <= 2; row++) {
-			System.out.println("Row " + (row + 1));
-			for (int col = 0; col <= 2; col++) {
+		for (int col = 0; col <= 2; col++) {
+			System.out.println("Col " + (col + 1));
+			for (int row = 0; row <= 2; row++) {
 				System.out.println(mat[row][col]);
 			}
 		}
@@ -112,5 +126,34 @@ public class MatrixMath {
 		
 		return mag;
 		
+	}
+	
+	public static double[][] transpose(double[][] mat) {
+		
+		double[][] newMat = mat;
+		
+		for (int r = 0; r <= 2; r++) {
+			for (int c = 0; c <= 2; c++) {
+				newMat[r][c] = mat[c][r]; 
+			}
+		}
+		
+		
+		return newMat;
+	}
+	
+	public static double[][] matAdd(double[][] mat1, double[][] mat2) {
+		
+		// Empty 3x3 matrix
+		double[][] out = {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}};
+		
+		for (int r = 0; r <= 2; r++) {
+			for (int c = 0; c <= 2; c++) {
+				out[r][c] = mat1[r][c] + mat2[r][c]; 
+			}
+		}
+		
+		
+		return out;
 	}
 }
