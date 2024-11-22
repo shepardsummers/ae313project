@@ -95,7 +95,7 @@ public class Gauss {
 	
 	public static double interate(double[] AB, double[][] R, double[][] p, double m) {
 		
-		double guess = 50000;
+		double guess = 9000;
 		
 		double[] p2 = {p[1][0], p[1][1], p[1][2]};
 		double[] R2 = {R[1][0], R[1][1], R[1][2]};
