@@ -63,10 +63,10 @@ public class Main {
 		
 		System.out.println("C Values: " + cValues[0] + " | " + cValues[1]);
 		
-		// Find slant ranges
-		double[][] r = Gauss.findECIr(pHat, R, cValues);
+		// Find ECI distance
+		double[][] ECIr = Gauss.findECIr(pHat, R, cValues);
 		
-		MatrixMath.printMat(r);
+		MatrixMath.printMat(ECIr);
 		
 		//MatrixMath.printMat(MatrixMath.matMult(pHat, MatrixMath.inverse(pHat)));
 		

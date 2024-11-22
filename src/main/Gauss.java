@@ -14,8 +14,8 @@ public class Gauss {
 		// Method to calculate c1 and c3 values
 		
 		// Calculate c1 and c3 based off of time difference
-		double c1 = (tau3/tau) * (1 + (m/Math.pow(r2, 3)) * (Math.pow(tau, 2) - Math.pow(tau3, 2)));
-		double c3 = (-tau1/tau) * (1 + (m/Math.pow(r2, 3)) * (Math.pow(tau, 2) - Math.pow(tau1, 2)));
+		double c1 = (tau3/tau) * (1 + (m/(6*Math.pow(r2, 3))) * (Math.pow(tau, 2) - Math.pow(tau3, 2)));
+		double c3 = (-tau1/tau) * (1 + (m/(6*Math.pow(r2, 3))) * (Math.pow(tau, 2) - Math.pow(tau1, 2)));
 		
 		// Return array
 		double[] out = {c1,c3};
@@ -134,6 +134,11 @@ public class Gauss {
 		double[] M2 = MatrixMath.matMult1x3(M, vect);
 		
 		double[] P = {(M2[0]/C[0]), (M2[1]/-1), (M2[2]/C[1])};
+		
+		System.out.println("P");
+		System.out.println(P[0]);
+		System.out.println(P[1]);
+		System.out.println(P[2]);
 		
 		double[][] r = {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}};
 		
