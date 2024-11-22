@@ -2,6 +2,13 @@ package main;
 
 public class Main {
 	
+	/*
+	 * AE 313 HON PROJECT
+	 * AUTHOR: Shepard Summers
+	 * PURPOSE: To use Gauss method to obtain radius and velocity
+	 * 
+	 */
+	
 	// INPUT VARIABLES
 	
 	// assorted constants
@@ -25,7 +32,7 @@ public class Main {
 	public final static double theta2 = 151.253;
 	public final static double theta3 = 152.507;
 	
-	// topocentric right acension angle (degrees)
+	// topocentric right ascension angle (degrees)
 	public final static double ra1 = 157.783;
 	public final static double ra2 = 159.221;
 	public final static double ra3 = 160.526;
@@ -41,57 +48,51 @@ public class Main {
 		
 		// test
 		double r2 = 900; //km
+		//double[][] mat = {{2, 2, 3}, {4, 5, 6}, {7, 8, 9}};
 		
-		//double[][] pHat = findPHat();
+		double[][] pHat = findPHat();
 		double[] c = findC(r2);
 		
-		double[][] mat = {{2, 2, 3}, {4, 5, 6}, {7, 8, 9}};
-		double[][] inv = MatrixMath.inverse(mat);
+		MatrixMath.printMat(pHat);
 		
-		for (int row = 0; row <= 2; row++) {
-			System.out.println("Row " + (row + 1));
-			for (int col = 0; col <= 2; col++) {
-				System.out.println(inv[row][col]);
-			}
-		}
-		
-		//System.out.println(c[0]);
-		//System.out.println(c[1]);
 	}
 	
 	static double[] findC(double r2) {
+		// Method to calculate c1 and c3 values
 		
+		// Calculate c1 and c3 based off of time difference
 		double c1 = (tau3/tau) * (1 + (m/Math.pow(r2, 3)) * (Math.pow(tau, 2) - Math.pow(tau3, 2)));
 		double c3 = (-tau1/tau) * (1 + (m/Math.pow(r2, 3)) * (Math.pow(tau, 2) - Math.pow(tau1, 2)));
 		
+		// Return array
 		double[] out = {c1,c3};
+		
 		return out;
 	}
 	
 	static double[][] findPHat() {
+		// Method to find the p hat matrix
 		
+		// Putting right ascension and declination into arrays after conversion to radians
 		double[] ra = {Math.toRadians(ra1), Math.toRadians(ra2), Math.toRadians(ra3)};
 		double[] dec = {Math.toRadians(dec1), Math.toRadians(dec2), Math.toRadians(dec3)};
 		
+		// Empty 3x3 matrix
 		double[][] p = {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}};
 		
+		// For loop to calculate p matrix
 		for(int i = 0; i < 3; i++) {
 			
 			p[i][0] = Math.cos(dec[i]) * Math.cos(ra[i]);
 			p[i][1] = Math.cos(dec[i]) * Math.sin(ra[i]);
 			p[i][2] = Math.sin(dec[i]);
 			
-			/*
-			System.out.println(out[0][i]);
-			System.out.println(out[1][i]);
-			System.out.println(out[2][i]);
-			*/
-				
 		}
 		
-		double[][] out = MatrixMath.inverse(p);
+		// Inverting the p matrix
+		//double[][] out = MatrixMath.inverse(p);
 		
-		return out;
+		return p;
 	}
 	
 	
