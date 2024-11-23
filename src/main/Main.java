@@ -59,29 +59,71 @@ public class Main {
 		
 		System.out.println("R2: " + r2);
 		
-		double[] cValues = Gauss.findC(r2, tau, tau3, tau1, m);
-		
-		//System.out.println("C Values: " + cValues[0] + " | " + cValues[1]);
+		double[] cValues = Gauss.findC(r2, tau, tau3, tau1, m);		
 		
 		// Find ECI distance
 		double[][] ECIr = Gauss.findECIr(pHat, R, cValues);
 		
-		//MatrixMath.printMat(ECIr);
+		MatrixMath.printMat(ECIr);
 		
 		//MatrixMath.printMat(MatrixMath.matMult(pHat, MatrixMath.inverse(pHat)));
 		
 		double[] v_g = Gibbs.run(ECIr, m);
+		/*
 		System.out.println("v2 vector (Gibbs): ");
 		System.out.println(v_g[0]);
 		System.out.println(v_g[1]);
 		System.out.println(v_g[2]);
+		*/
 		
 		double[] v_l = Lagrange.run(ECIr, tau1, tau3, m);
+		/*
 		System.out.println("v2 vector (Simple Lagrange): ");
 		System.out.println(v_l[0]);
 		System.out.println(v_l[1]);
 		System.out.println(v_l[2]);
-		
+		*/
+		 
+		double[][] newECI = ECIr;
+		double[] oldR2 = {newECI[0][1], newECI[1][1], newECI[0][2]};
+		double d = 100000;
+		double pf1 = 0;
+		double pf3 = 0;
+		double pg1 = 0;
+		double pg3 = 0;
+		int count = 0;
+		Boolean first = true;
+		while (d > 0.00000000000001) {
+			count++;
+			
+			System.out.print("RUN " + count);
+			System.out.println("--------------------");	
+			double[][] out = InterativeGauss.run(newECI, v_g, m, tau1, tau3, false, pf1, pf3, pg1, pg3, pHat, R, first);
+
+			double[] cList = {out[0][0], out[0][1]};
+			newECI = Gauss.findECIr(pHat, R, cList);
+			double[] newR2 = {newECI[0][1], newECI[1][1], newECI[0][2]};
+			System.out.println("Old R2: " + oldR2[0] + " | " + oldR2[1] + " | " + oldR2[2]);
+			System.out.println("New R2: " + newECI[0][1] + " | " + newECI[1][1] + " | " + newECI[2][1]);
+			System.out.println("C Values: " + cValues[0] + " | " + cValues[1]);
+			System.out.println("C Values: " + out[0][0] + " | " + out[0][1]);
+			
+			pf1 = out[1][0];
+			pf3 = out[1][1];
+			pg1 = out[1][2];
+			pg3 = out[1][3];
+			
+			d = Math.abs(MatrixMath.mag(oldR2) - MatrixMath.mag(newR2));
+			System.out.println("Disc: " + d);
+			System.out.println("===================================");	
+			
+			if (count > 10) {
+				d = 0;
+			}
+			if (first == true) {
+				first = false;
+			}
+		}
 		
 	}	
 	
