@@ -70,11 +70,17 @@ public class Main {
 		
 		//MatrixMath.printMat(MatrixMath.matMult(pHat, MatrixMath.inverse(pHat)));
 		
-		double[] v = Gibbs.run(ECIr, m);
+		double[] v_g = Gibbs.run(ECIr, m);
 		System.out.println("v2 vector (Gibbs): ");
-		System.out.println(v[0]);
-		System.out.println(v[1]);
-		System.out.println(v[2]);
+		System.out.println(v_g[0]);
+		System.out.println(v_g[1]);
+		System.out.println(v_g[2]);
+		
+		double[] v_l = Lagrange.run(ECIr, tau1, tau3, m);
+		System.out.println("v2 vector (Simple Lagrange): ");
+		System.out.println(v_l[0]);
+		System.out.println(v_l[1]);
+		System.out.println(v_l[2]);
 		
 	}	
 	
