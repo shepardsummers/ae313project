@@ -149,12 +149,15 @@ public class Gauss {
 		
 		// Find M matrix
 		double[][] M = MatrixMath.matMult(MatrixMath.inverse(pHat), R);
+		//MatrixMath.printMat(M);
 		
 		// Vector that will be multiplied
 		double[] vect = {-C[0], 1, -C[1]};
+		//System.out.println("Vect: " + vect[0] + " | " + vect[1] + " | " + vect[2]);
 		
 		// Matrix from M multiplied with vect
 		double[] M2 = MatrixMath.matMult1x3(M, vect);
+		//System.out.println("M2: " + M2[0] + " | " + M2[1] + " | " + M2[2]);
 		
 		// Slant vector
 		double[] P = {(M2[0]/C[0]), (M2[1]/-1), (M2[2]/C[1])};

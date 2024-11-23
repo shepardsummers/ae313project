@@ -64,25 +64,15 @@ public class Main {
 		// Find ECI distance
 		double[][] ECIr = Gauss.findECIr(pHat, R, cValues);
 		
-		MatrixMath.printMat(ECIr);
+		//MatrixMath.printMat(ECIr);
 		
 		//MatrixMath.printMat(MatrixMath.matMult(pHat, MatrixMath.inverse(pHat)));
 		
 		double[] v_g = Gibbs.run(ECIr, m);
-		/*
-		System.out.println("v2 vector (Gibbs): ");
-		System.out.println(v_g[0]);
-		System.out.println(v_g[1]);
-		System.out.println(v_g[2]);
-		*/
+		System.out.println("v2 vector (Gibbs): " + v_g[0] + " | " + v_g[1] + " | " + v_g[2]);
 		
 		double[] v_l = Lagrange.run(ECIr, tau1, tau3, m);
-		/*
-		System.out.println("v2 vector (Simple Lagrange): ");
-		System.out.println(v_l[0]);
-		System.out.println(v_l[1]);
-		System.out.println(v_l[2]);
-		*/
+		System.out.println("v2 vector (Simple Lagrange): " + v_l[0] + " | " + v_l[1] + " | " + v_l[2]);
 		 
 		double[][] newECI = ECIr;
 		double[] oldR2 = {newECI[0][1], newECI[1][1], newECI[0][2]};
@@ -92,8 +82,12 @@ public class Main {
 		double pg1 = 0;
 		double pg3 = 0;
 		int count = 0;
+		double[] newR2 = {0, 0, 0};
+		double[] newV2 = {0, 0, 0};
 		Boolean first = true;
-		while (d > 0.00000000000001) {
+		System.out.println("===================================");
+		double[] oe = {};
+		while (d > 0.0000000000000000000000001) {
 			count++;
 			
 			System.out.print("RUN " + count);
@@ -102,7 +96,12 @@ public class Main {
 
 			double[] cList = {out[0][0], out[0][1]};
 			newECI = Gauss.findECIr(pHat, R, cList);
-			double[] newR2 = {newECI[0][1], newECI[1][1], newECI[0][2]};
+			double[] newR1 = {newECI[0][0], newECI[1][0], newECI[2][0]};
+			double[] newR3 = {newECI[0][2], newECI[1][2], newECI[2][2]};
+			
+			newR2[0] = newECI[0][1];
+			newR2[1] = newECI[1][1];
+			newR2[2] = newECI[2][1];
 			System.out.println("Old R2: " + oldR2[0] + " | " + oldR2[1] + " | " + oldR2[2]);
 			System.out.println("New R2: " + newECI[0][1] + " | " + newECI[1][1] + " | " + newECI[2][1]);
 			System.out.println("C Values: " + cValues[0] + " | " + cValues[1]);
@@ -111,20 +110,35 @@ public class Main {
 			pf1 = out[1][0];
 			pf3 = out[1][1];
 			pg1 = out[1][2];
-			pg3 = out[1][3];
+			pg3 = out[1][3];			
+			
+			newV2 = MatrixMath.scalMult(MatrixMath.vectAdd(MatrixMath.scalMult(newR1, -pf3), MatrixMath.scalMult(newR3, pf1)), 1/(pf1*pg3 - pf3*pg1));
+			
+			//System.out.println("New R2: " + newR1[0] + " | " + newR1[1] + " | " + newR1[2]);
+			//System.out.println("New R3: " + newR3[0] + " | " + newR3[1] + " | " + newR3[2]);
+			System.out.println("New  V2: " + newV2[0] + " | " + newV2[1] + " | " + newV2[2]);
 			
 			d = Math.abs(MatrixMath.mag(oldR2) - MatrixMath.mag(newR2));
-			System.out.println("Disc: " + d);
-			System.out.println("===================================");	
 			
-			if (count > 10) {
+			oe = OE.run(newR2, newV2, m);
+			System.out.println("h: " + oe[0] + " e " + oe[1] + " true anom: " + oe[2] + " raan: " + + oe[3] + " ap: " + oe[4] + " inc: " + oe[5]);
+			
+			System.out.println("Disc: " + d);
+			System.out.println("===================================");
+			
+			oldR2 = newR2;
+			
+			if (count > 20) {
 				d = 0;
 			}
 			if (first == true) {
 				first = false;
 			}
+			
+
+			
 		}
-		
+		System.out.println(MatrixMath.mag(newR2));
 	}	
 	
 	public static void dec(String input) {
