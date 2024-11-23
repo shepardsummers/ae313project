@@ -3,7 +3,7 @@ package main;
 public class Gauss {
 	/* 
 	 * CLASS PURPOSE: To handle Gauss method calculations
-	 * METHODS: 
+	 * METHODS: findC, findPHat, findR
 	 * 
 	 */
 	
@@ -94,11 +94,11 @@ public class Gauss {
 		// Initial guess in km
 		double guess = 10000;
 		
-		// Row 2 of pHat matrix
+		// Col 2 of pHat matrix
 		double[] p2 = {p[0][1], p[1][1], p[2][1]};
 		//double[] p2 = {p[1][0], p[1][1], p[1][2]};
 		
-		// Row 2 of R matrix
+		// Col 2 of R matrix
 		double[] R2 = {R[0][1], R[1][1], R[2][1]};
 		//double[] R2 = {R[1][0], R[1][1], R[1][2]};
 		

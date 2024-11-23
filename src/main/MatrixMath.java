@@ -163,4 +163,60 @@ public class MatrixMath {
 		
 		return out;
 	}
+	
+	public static double[] cross(double[] v1, double[] v2) {
+		// Method to do cross product of v1 and v2
+		
+		// Empty vector
+		double[] out = {0, 0, 0};
+		
+		// Calculations for dot product
+		out[0] = (v1[1]*v2[2]) - (v1[2]*v2[1]);
+		out[1] = -(v1[0]*v2[2]) + (v1[2]*v2[0]);
+		out[2] = (v1[0]*v2[1]) - (v1[1]*v2[0]);
+		
+		return out;
+	}
+	
+	public static double[] vectAdd(double[] v1, double[] v2, double[] v3) {
+		// Method to add v1 v2 and v3
+		
+		// Empty vector
+		double[] out = {0, 0, 0};
+		
+		// Calculations
+		out[0] = v1[0] + v2[0] + v3[0];
+		out[1] = v1[1] + v2[1] + v3[1];
+		out[2] = v1[2] + v2[2] + v3[2];
+		
+		return out;
+	}
+	
+	public static double[] vectAdd(double[] v1, double[] v2) {
+		// Method to add v1 and v2
+		
+		// Empty vector
+		double[] out = {0, 0, 0};
+		
+		// Calculations
+		out[0] = v1[0] + v2[0];
+		out[1] = v1[1] + v2[1];
+		out[2] = v1[2] + v2[2];
+		
+		return out;
+	}
+	
+	public static double[] scalMult(double[] v, double s) {
+		// Method to multiply vector v and scalar s
+		
+		// Empty vector
+		double[] out = {0, 0, 0};
+		
+		// For loop to multiply every value by scalar
+		for (int i = 0; i <= (v.length - 1); i++) {
+			out[i] = s * v[i];
+		}
+		
+		return out;
+	}
 }

@@ -66,10 +66,15 @@ public class Main {
 		// Find ECI distance
 		double[][] ECIr = Gauss.findECIr(pHat, R, cValues);
 		
-		MatrixMath.printMat(ECIr);
+		//MatrixMath.printMat(ECIr);
 		
 		//MatrixMath.printMat(MatrixMath.matMult(pHat, MatrixMath.inverse(pHat)));
 		
+		double[] v = Gibbs.run(ECIr, m);
+		System.out.println("v2 vector (Gibbs): ");
+		System.out.println(v[0]);
+		System.out.println(v[1]);
+		System.out.println(v[2]);
 		
 	}	
 	
