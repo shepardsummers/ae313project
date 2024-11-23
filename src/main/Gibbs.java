@@ -34,6 +34,8 @@ public class Gibbs {
 		double f = Math.sqrt(m/(NMag*DMag));
 		double[] v2 = MatrixMath.scalMult(MatrixMath.vectAdd(MatrixMath.scalMult(MatrixMath.cross(D, r2), 1/r2Mag), S), f);
 				
+		OE.run(r2, v2, m);
+		
 		return v2;
 	}
 	

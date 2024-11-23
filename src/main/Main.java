@@ -5,7 +5,7 @@ public class Main {
 	/*
 	 * AE 313 HON PROJECT
 	 * AUTHOR: Shepard Summers
-	 * PURPOSE: To use Gauss method to obtain radius and velocity
+	 * PURPOSE: To use Gauss method to obtain radius, velocity and orbital elements
 	 * 
 	 */
 	
@@ -81,6 +81,7 @@ public class Main {
 		System.out.println(v_l[0]);
 		System.out.println(v_l[1]);
 		System.out.println(v_l[2]);
+		
 		
 	}	
 	

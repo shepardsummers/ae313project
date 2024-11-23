@@ -7,6 +7,7 @@ public class Lagrange {
 	}
 
 	public static double[] run(double[][] r, double tau1, double tau3, double m){
+		// Method for finding v using Lagrange coefficients 
 		
 		// Extracting r1, r2, r3 from r
 		double[] r1 = {r[0][0], r[1][0], r[2][0]};
@@ -26,6 +27,8 @@ public class Lagrange {
 		
 		// Calculation of v2
 		double[] v2 = MatrixMath.scalMult(MatrixMath.vectAdd(MatrixMath.scalMult(r1, f3), MatrixMath.scalMult(r3, -f1)), 1/(f3*g1 - f1*g3));		
+		
+		OE.run(r2, v2, m);
 		
 		return v2;
 	}
