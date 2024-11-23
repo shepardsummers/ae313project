@@ -10,6 +10,7 @@ public class Gauss {
 	public Gauss() {
 		// TODO Auto-generated constructor stub
 	}
+	
 	static double[] findC(double r2, double tau, double tau3, double tau1, double m) {
 		// Method to calculate c1 and c3 values
 		
@@ -41,9 +42,6 @@ public class Gauss {
 			p[2][i] = Math.sin(dec[i]);
 			
 		}
-		
-		// Inverting the p matrix
-		//double[][] out = MatrixMath.inverse(p);
 		
 		return p;
 	}
@@ -90,33 +88,56 @@ public class Gauss {
 		return out;
 	}
 	
-	public static double interate(double[] AB, double[][] R, double[][] p, double m) {
+	public static double interate(double[] AB, double[][] R, double[][] p, double m, Boolean doShow) {
+		// This method finds r2 using Newton's method		
 		
-		double guess = 9000;
+		// Initial guess in km
+		double guess = 10000;
 		
-		double[] p2 = {p[1][0], p[1][1], p[1][2]};
-		double[] R2 = {R[1][0], R[1][1], R[1][2]};
+		// Row 2 of pHat matrix
+		double[] p2 = {p[0][1], p[1][1], p[2][1]};
+		//double[] p2 = {p[1][0], p[1][1], p[1][2]};
 		
+		// Row 2 of R matrix
+		double[] R2 = {R[0][1], R[1][1], R[2][1]};
+		//double[] R2 = {R[1][0], R[1][1], R[1][2]};
+		
+		// a, b, and c values used in polynomial approximation
 		double a = -(Math.pow(AB[0], 2) + 2*AB[0]*MatrixMath.dot(R2, p2) + Math.pow(MatrixMath.mag(R2), 2));
 		double b = -2*m*AB[1]*(AB[0] + MatrixMath.dot(R2, p2));
 		double c = -Math.pow(m, 2)*Math.pow(AB[1], 2);
 		
-		System.out.println("A: " + a + " B: " + b + " C: " + c);
+		//System.out.println("A: " + a + " B: " + b + " C: " + c);
 		
+		// Run counter
 		int count = 0;
+		
+		// Current value
 		double xn;
+		
+		// Discrepancy value
 		double d = 1;
+		
+		// Newton's Iteration Method while loop
 		while (Math.abs(d) >= 0.000001) {
 			count ++;
 			
+			// Updates current value to last guess
 			xn = guess;
+			
+			// Newton's method
 			guess = xn - ((Math.pow(xn, 8) + a*Math.pow(xn, 6) + b*Math.pow(xn, 3) + c) / (8*Math.pow(xn, 7) + 6*a*Math.pow(xn, 5) + 3*b*Math.pow(xn, 2)));
+			
+			// Updates discrepancy value
 			d = guess - xn;
 			
-			System.out.println("Run " + count + " -+-+-+-+-+-+-+-+-+-+-+-+-");
-			System.out.println("  Xn: " + xn);
-			System.out.println("  Xn+1: " + guess);
-			System.out.println("  Disc: " + d);
+			// Show/hides output
+			if (doShow == true) {
+				System.out.println("Run " + count + " -+-+-+-+-+-+-+-+-+-+-+-+-");
+				System.out.println("  Xn: " + xn);
+				System.out.println("  Xn+1: " + guess);
+				System.out.println("  Disc: " + d);
+			}
 			
 		}
 		
@@ -124,6 +145,7 @@ public class Gauss {
 	}
 	
 	public static double[][] findECIr(double[][] pHat, double[][] R, double[] C) {
+		// This method finds r1, r2, r3 in ECI frame and outputs in 3x3 matrix
 		
 		// Find M matrix
 		double[][] M = MatrixMath.matMult(MatrixMath.inverse(pHat), R);
@@ -131,17 +153,23 @@ public class Gauss {
 		// Vector that will be multiplied
 		double[] vect = {-C[0], 1, -C[1]};
 		
+		// Matrix from M multiplied with vect
 		double[] M2 = MatrixMath.matMult1x3(M, vect);
 		
+		// Slant vector
 		double[] P = {(M2[0]/C[0]), (M2[1]/-1), (M2[2]/C[1])};
 		
+		/*
 		System.out.println("P");
 		System.out.println(P[0]);
 		System.out.println(P[1]);
 		System.out.println(P[2]);
+		*/
 		
+		// Empty 3x3 matrix
 		double[][] r = {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}};
 		
+		// For loop to calculate r1, r2, and r3 in ECI
 		for (int col = 0; col <= 2; col++) {
 			for (int row = 0; row <= 2; row++) {
 				r[row][col] = R[row][col] + P[col]*pHat[row][col];

@@ -121,7 +121,9 @@ public class MatrixMath {
 	}
 	
 	public static double mag(double[] v) {
+		// Method to get the magnitude of a vector
 		
+		// Magnitude calculation
 		double mag = Math.sqrt(Math.pow(v[0], 2) + Math.pow(v[1], 2) + Math.pow(v[2], 2));
 		
 		return mag;
@@ -129,9 +131,12 @@ public class MatrixMath {
 	}
 	
 	public static double[][] transpose(double[][] mat) {
+		// Method to transpose a matrix, currently unused
 		
+		// Creates new matrix
 		double[][] newMat = mat;
 		
+		// For loop that transposes matrix
 		for (int r = 0; r <= 2; r++) {
 			for (int c = 0; c <= 2; c++) {
 				newMat[r][c] = mat[c][r]; 
@@ -143,10 +148,12 @@ public class MatrixMath {
 	}
 	
 	public static double[][] matAdd(double[][] mat1, double[][] mat2) {
+		// This method adds two matrices
 		
 		// Empty 3x3 matrix
 		double[][] out = {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}};
 		
+		// For loop that adds the matrices
 		for (int r = 0; r <= 2; r++) {
 			for (int c = 0; c <= 2; c++) {
 				out[r][c] = mat1[r][c] + mat2[r][c]; 

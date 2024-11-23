@@ -51,7 +51,7 @@ public class Main {
 		double[][] pHat = Gauss.findPHat(ra1, ra2, ra3, dec1, dec2, dec3);
 		double[][] R = Gauss.findR(theta1, theta2, theta3, tLat, tRad);
 		double[] AB = Gauss.findAB(pHat, R, tau, tau1, tau3);
-		double r2 = Gauss.interate(AB, R, pHat, m);
+		double r2 = Gauss.interate(AB, R, pHat, m, false);
 		
 		System.out.println("===================================");		
 		
@@ -61,7 +61,7 @@ public class Main {
 		
 		double[] cValues = Gauss.findC(r2, tau, tau3, tau1, m);
 		
-		System.out.println("C Values: " + cValues[0] + " | " + cValues[1]);
+		//System.out.println("C Values: " + cValues[0] + " | " + cValues[1]);
 		
 		// Find ECI distance
 		double[][] ECIr = Gauss.findECIr(pHat, R, cValues);
