@@ -92,7 +92,7 @@ public class Gauss {
 		// This method finds r2 using Newton's method		
 		
 		// Initial guess in km
-		double guess = 10000;
+		double guess = 90000;
 		
 		// Col 2 of pHat matrix
 		double[] p2 = {p[0][1], p[1][1], p[2][1]};

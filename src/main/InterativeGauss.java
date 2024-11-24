@@ -19,18 +19,19 @@ public class InterativeGauss {
 		
 		
 		// Inverse of semi-major axis
-		double alpha = (2/r2Mag) - (Math.pow(v2Mag, 2)/m);
-		//System.out.println("Alpha: " + alpha);
+		double alpha = Math.abs((2/r2Mag) - (Math.pow(v2Mag, 2)/m));
+		System.out.println("Alpha: " + alpha);
 		
 		// Radial component of v2
-		double v2r = MatrixMath.dot(v2, r2) / r2Mag;
-		//System.out.println("v2r: " + v2r);
+		double v2r = Math.abs(MatrixMath.dot(v2, r2) / r2Mag);
+		System.out.println("v2r: " + v2r);
 		
 		// Empty matrix to store X values
 		double[] x = {0, 0};		
 		
 		// Initial guess that Chobotov recommends
 		double guess = Math.sqrt(m)*alpha*tau1;
+		System.out.println("Guess: " + guess);
 		
 		// Discrepancy value
 		double d = 1000000;
